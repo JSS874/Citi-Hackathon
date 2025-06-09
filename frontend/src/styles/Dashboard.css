@@ -88,3 +88,15 @@
     color: #333;
     margin-bottom: 1rem;
   }
+  
+  .card-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .card-list {
+      grid-template-columns: 1fr;
+    }
+  }

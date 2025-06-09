@@ -1,9 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../../styles/LoginPage.css';
 
 const LoginForm: React.FC = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    // Here you would typically handle authentication
+    // For now, we'll just navigate to the dashboard
+    navigate('/dashboard');
+  };
+
   return (
-    <form className="login-form">
+    <form className="login-form" onSubmit={handleSubmit}>
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input type="email" id="email" name="email" required />

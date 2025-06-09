@@ -1,5 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/Dashboard.css';
+import CreditCardWidget from '../components/CreditCardWidget';
+
+interface CreditCard {
+  id: string;
+  bank: string;
+  name: string;
+  type: string;
+  annual_fee: string;
+  apr: string;
+  rewards: string;
+  credit_score: {
+    min: number;
+    notes: string;
+  };
+  min_income: {
+    min: number;
+    notes: string;
+  };
+}
+
+const mockCardData: CreditCard[] = [
+    {
+        "id": "1",
+        "bank": "Chase",
+        "name": "Chase Sapphire Preferred",
+        "type": "Travel rewards",
+        "annual_fee": "$95",
+        "apr": "Variable (~19%-29%)",
+        "rewards": "2X points on travel and dining",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good to excellent (≈700+; mid 700s preferred)"
+        },
+        "min_income": {
+            "min": 30000,
+            "notes": "Reported ~$30K+ annual income needed"
+        }
+    },
+    {
+        "id": "2",
+        "bank": "American Express",
+        "name": "Blue Cash Everyday Card",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "0% intro APR for 15 months, then variable",
+        "rewards": "3% cash back at U.S. supermarkets (on up to $6,000 per year), 2% at U.S. gas stations",
+        "credit_score": {
+            "min": 680,
+            "notes": "Good to excellent credit recommended"
+        },
+        "min_income": {
+            "min": 25000,
+            "notes": "No official minimum, but ~$25K+ income is typical for approval"
+        }
+    }
+];
 
 const Dashboard: React.FC = () => {
   const [salaryRange, setSalaryRange] = useState({ min: 20000, max: 200000 });
@@ -7,10 +63,27 @@ const Dashboard: React.FC = () => {
   const [incomeRange, setIncomeRange] = useState({ min: 20000, max: 200000 });
   const [advancedSearch, setAdvancedSearch] = useState(false);
   const [travelPreference, setTravelPreference] = useState(false);
+  const [cards, setCards] = useState<CreditCard[]>([]);
+
+  useEffect(() => {
+    // Initially load all cards
+    setCards(mockCardData);
+  }, []);
 
   const handleSearch = () => {
-    console.log('Search criteria:', { salaryRange, creditScoreRange, incomeRange, advancedSearch, travelPreference });
-    // Add logic to fetch and display results based on criteria
+    // In a real app, you'd fetch from an API.
+    // For now, we'll filter the mock data based on search criteria.
+    const filteredCards = mockCardData.filter(card => {
+        const meetsIncome = card.min_income.min >= incomeRange.min && card.min_income.min <= incomeRange.max;
+        const meetsCreditScore = card.credit_score.min >= creditScoreRange.min && card.credit_score.min <= creditScoreRange.max;
+        const meetsTravel = !travelPreference || (travelPreference && card.type.toLowerCase().includes('travel'));
+        
+        // Salary range is not in the card data, so we're omitting it from the filter for now.
+        // You could add it if it becomes available in the data model.
+        return meetsIncome && meetsCreditScore && meetsTravel;
+    });
+
+    setCards(filteredCards);
   };
 
   return (
@@ -145,8 +218,13 @@ const Dashboard: React.FC = () => {
       {/* Main content area for credit card widgets */}
       <div className="main-content">
         <h2 className="main-title">Credit Cards</h2>
-        <p>Credit card widgets will be displayed here.</p>
-        {/* Placeholder for teammate's work */}
+        <div className="card-list">
+          {cards.length > 0 ? (
+            cards.map(card => <CreditCardWidget key={card.id} card={card} />)
+          ) : (
+            <p>No cards match your criteria.</p>
+          )}
+        </div>
       </div>
     </div>
   );
