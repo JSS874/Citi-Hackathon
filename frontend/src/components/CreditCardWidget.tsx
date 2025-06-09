@@ -6,14 +6,14 @@ interface CreditCard {
   bank: string;
   name: string;
   type: string;
-  annual_fee: string;
+  annualFee: string;
   apr: string;
   rewards: string;
-  credit_score: {
+  creditScore: {
     min: number;
     notes: string;
   };
-  min_income: {
+  minIncome: {
     min: number;
     notes: string;
   };
@@ -29,18 +29,18 @@ const CreditCardWidget: React.FC<CreditCardWidgetProps> = ({ card }) => {
       <h3>{card.name}</h3>
       <p><strong>Bank:</strong> {card.bank}</p>
       <p><strong>Type:</strong> {card.type}</p>
-      <p><strong>Annual Fee:</strong> {card.annual_fee}</p>
+      <p><strong>Annual Fee:</strong> {card.annualFee}</p>
       <p><strong>APR:</strong> {card.apr}</p>
       <p><strong>Rewards:</strong> {card.rewards}</p>
       <div className="details-section">
         <h4>Credit Score Requirement</h4>
-        <p>Minimum: {card.credit_score.min}</p>
-        <p><em>{card.credit_score.notes}</em></p>
+        <p>Minimum: {card.creditScore.min}</p>
+        <p><em>{card.creditScore.notes}</em></p>
       </div>
       <div className="details-section">
         <h4>Minimum Income</h4>
-        <p>Recommended: ${card.min_income.min.toLocaleString()}</p>
-        <p><em>{card.min_income.notes}</em></p>
+        <p>Recommended: ${card.minIncome?.min?.toLocaleString() || 'N/A'}</p>
+        <p><em>{card.minIncome?.notes || 'N/A'}</em></p>
       </div>
     </div>
   );

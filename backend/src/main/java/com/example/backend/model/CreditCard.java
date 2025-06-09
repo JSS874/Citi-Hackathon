@@ -2,7 +2,6 @@ package com.example.backend.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Document(collection = "creditcards")
 public class CreditCard {
@@ -14,16 +13,13 @@ public class CreditCard {
     private String bank;
     private String type;
     
-    @JsonProperty("annual_fee")
     private String annualFee;
     
     private String apr;
     private String rewards;
     
-    @JsonProperty("credit_score")
     private CreditScore creditScore;
     
-    @JsonProperty("min_income")
     private MinIncome minIncome;
 
     public CreditCard() {

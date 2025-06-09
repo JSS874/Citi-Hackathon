@@ -7,55 +7,18 @@ interface CreditCard {
   bank: string;
   name: string;
   type: string;
-  annual_fee: string;
+  annualFee: string;
   apr: string;
   rewards: string;
-  credit_score: {
+  creditScore: {
     min: number;
     notes: string;
   };
-  min_income: {
+  minIncome: {
     min: number;
     notes: string;
   };
 }
-
-const mockCardData: CreditCard[] = [
-    {
-        "id": "1",
-        "bank": "Chase",
-        "name": "Chase Sapphire Preferred",
-        "type": "Travel rewards",
-        "annual_fee": "$95",
-        "apr": "Variable (~19%-29%)",
-        "rewards": "2X points on travel and dining",
-        "credit_score": {
-            "min": 700,
-            "notes": "Good to excellent (≈700+; mid 700s preferred)"
-        },
-        "min_income": {
-            "min": 30000,
-            "notes": "Reported ~$30K+ annual income needed"
-        }
-    },
-    {
-        "id": "2",
-        "bank": "American Express",
-        "name": "Blue Cash Everyday Card",
-        "type": "Cash back",
-        "annual_fee": "$0",
-        "apr": "0% intro APR for 15 months, then variable",
-        "rewards": "3% cash back at U.S. supermarkets (on up to $6,000 per year), 2% at U.S. gas stations",
-        "credit_score": {
-            "min": 680,
-            "notes": "Good to excellent credit recommended"
-        },
-        "min_income": {
-            "min": 25000,
-            "notes": "No official minimum, but ~$25K+ income is typical for approval"
-        }
-    }
-];
 
 const Dashboard: React.FC = () => {
   const [salaryRange, setSalaryRange] = useState({ min: 20000, max: 200000 });
@@ -64,27 +27,62 @@ const Dashboard: React.FC = () => {
   const [advancedSearch, setAdvancedSearch] = useState(false);
   const [travelPreference, setTravelPreference] = useState(false);
   const [cards, setCards] = useState<CreditCard[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Initially load all cards
-    setCards(mockCardData);
+    fetchCards();
   }, []);
 
-  const handleSearch = () => {
-    // In a real app, you'd fetch from an API.
-    // For now, we'll filter the mock data based on search criteria.
-    const filteredCards = mockCardData.filter(card => {
-        const meetsIncome = card.min_income.min >= incomeRange.min && card.min_income.min <= incomeRange.max;
-        const meetsCreditScore = card.credit_score.min >= creditScoreRange.min && card.credit_score.min <= creditScoreRange.max;
-        const meetsTravel = !travelPreference || (travelPreference && card.type.toLowerCase().includes('travel'));
-        
-        // Salary range is not in the card data, so we're omitting it from the filter for now.
-        // You could add it if it becomes available in the data model.
-        return meetsIncome && meetsCreditScore && meetsTravel;
-    });
-
-    setCards(filteredCards);
+  const fetchCards = async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:8080/api/cards');
+      if (!response.ok) {
+        throw new Error('Failed to fetch cards');
+      }
+      const data = await response.json();
+      setCards(data);
+      setError(null);
+    } catch (err) {
+      setError('Failed to load credit cards. Please try again later.');
+      console.error('Error fetching cards:', err);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  const handleSearch = async () => {
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams({
+        minCreditScore: creditScoreRange.min.toString(),
+        maxAnnualFee: salaryRange.max.toString(),
+        type: travelPreference ? 'Travel rewards' : '',
+      });
+
+      const response = await fetch(`http://localhost:8080/api/cards/search?${queryParams}`);
+      if (!response.ok) {
+        throw new Error('Failed to search cards');
+      }
+      const data = await response.json();
+      setCards(data);
+      setError(null);
+    } catch (err) {
+      setError('Failed to search credit cards. Please try again later.');
+      console.error('Error searching cards:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">{error}</div>;
+  }
 
   return (
     <div className="dashboard-container">
