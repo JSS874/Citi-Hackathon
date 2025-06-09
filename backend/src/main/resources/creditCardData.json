@@ -1,0 +1,290 @@
+[
+    {
+        "bank": "Chase",
+        "name": "Chase Sapphire Preferred",
+        "type": "Travel rewards",
+        "annual_fee": "$95",
+        "apr": "Variable (~19%-29%)",
+        "rewards": "2X points on travel and dining",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good to excellent (≈700+; mid 700s preferred)"
+        },
+        "min_income": {
+            "min": 30000,
+            "notes": "Reported ~$30K+ annual income needed"
+        }
+    },
+    {
+        "bank": "Chase",
+        "name": "Chase Sapphire Reserve",
+        "type": "Premium travel rewards",
+        "annual_fee": "$550",
+        "apr": "Variable",
+        "rewards": "3X points on travel & dining",
+        "credit_score": {
+            "min": 750,
+            "notes": "Excellent credit likely, premium requirements"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "High income expected; approval rare for < excellent credit"
+        }
+    },
+    {
+        "bank": "Chase",
+        "name": "Chase Freedom Unlimited",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "0% intro 15 mo, then ~19%-29%",
+        "rewards": "1.5% base; 3% dining/drugs; 5% travel",
+        "credit_score": {
+            "min": 690,
+            "notes": "Good credit (~690+ typical)"
+        },
+        "min_income": {
+            "min": 5000,
+            "notes": "People approved with $5K/year"
+        }
+    },
+    {
+        "bank": "Citi",
+        "name": "Citi Double Cash",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "19%-29%",
+        "rewards": "2% (1% purchase + 1% pay)",
+        "credit_score": {
+            "min": 640,
+            "notes": "Fair (≥640), though ≥670 preferred"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Issuer only requires ability to repay"
+        }
+    },
+    {
+        "bank": "Citi",
+        "name": "Citi Custom Cash",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "0% intro 15 mo, then 18.49%-28.49%",
+        "rewards": "5% cash back on your top eligible spend category each billing cycle (up to $500); others 1%",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good credit (some approved ~670)"
+        },
+        "min_income": {
+            "min": 15000,
+            "notes": "Users approved with ~$15K-25K annual income"
+        }
+    },
+    {
+        "bank": "Citi",
+        "name": "Citi Rewards+",
+        "type": "Points rewards",
+        "annual_fee": "$0",
+        "apr": "Variable",
+        "rewards": "2X points at supermarkets & gas (up to $6K/year), 1X others; 10% points back on redemptions (up to 100K pts/year)",
+        "credit_score": {
+            "min": 670,
+            "notes": "Good to excellent (~670+)"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "No published requirement; must show ability to repay"
+        }
+    },
+    {
+        "bank": "PNC",
+        "name": "PNC Cash Rewards Visa",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "0% intro 15 mo BT, then 19.24%-29.24%",
+        "rewards": "4% gas, 3% dining, 2% grocery (first $8K/yr), 1% others",
+        "credit_score": {
+            "min": 750,
+            "notes": "Excellent credit generally (≥750 typical)"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Must qualify for ≥$500 line; ability to repay"
+        }
+    },
+    {
+        "bank": "American Express",
+        "name": "American Express Gold",
+        "type": "Rewards (dining/travel)",
+        "annual_fee": "$250",
+        "apr": "Variable",
+        "rewards": "4X points at restaurants & U.S. supermarkets",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good to excellent (≥700 typical)"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Must afford ~$250 fee and monthly bills"
+        }
+    },
+    {
+        "bank": "American Express",
+        "name": "American Express Platinum",
+        "type": "Premium travel",
+        "annual_fee": "$695",
+        "apr": "Variable",
+        "rewards": "5X points on flights and hotels",
+        "credit_score": {
+            "min": 750,
+            "notes": "Excellent credit expected"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "High income expected; for frequent travelers"
+        }
+    },
+    {
+        "bank": "Capital One",
+        "name": "Capital One Venture X",
+        "type": "Premium travel",
+        "annual_fee": "$395",
+        "apr": "Variable",
+        "rewards": "10X on hotels & rental cars, 2X everywhere else",
+        "credit_score": {
+            "min": 740,
+            "notes": "Very good to excellent"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Likely high income; premium category"
+        }
+    },
+    {
+        "bank": "Capital One",
+        "name": "Capital One Savor",
+        "type": "Cash back",
+        "annual_fee": "$95",
+        "apr": "Variable; 0% intro 15 mo",
+        "rewards": "4% on dining & entertainment",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good or better; approvals reported with ~630-672"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "No official minimum; must afford payments"
+        }
+    },
+    {
+        "bank": "Discover",
+        "name": "Discover it Cash Back",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "Variable",
+        "rewards": "5% rotating categories",
+        "credit_score": {
+            "min": 670,
+            "notes": "Good credit (~670+)"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "No official minimum"
+        }
+    },
+    {
+        "bank": "Bank of America",
+        "name": "Bank of America Customized Cash Rewards",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "Variable",
+        "rewards": "3% in chooseable category, 2% at grocery,1% others",
+        "credit_score": {
+            "min": 670,
+            "notes": "Good credit"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "No published minimum"
+        }
+    },
+    {
+        "bank": "U.S. Bank",
+        "name": "U.S. Bank Altitude Go Visa",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "Variable, 0% intro on purchases",
+        "rewards": "4X on dining, gas, streaming bolstered",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good credit expected"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Ability to repay required"
+        }
+    },
+    {
+        "bank": "Wells Fargo",
+        "name": "Wells Fargo Active Cash",
+        "type": "Cash back",
+        "annual_fee": "$0",
+        "apr": "Variable, 0% intro 15 mo",
+        "rewards": "2% unlimited cash back",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good credit typical"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Must have sufficient income to repay"
+        }
+    },
+    {
+        "bank": "American Express",
+        "name": "Blue Cash Preferred (Amex)",
+        "type": "Cash back",
+        "annual_fee": "$95",
+        "apr": "Variable",
+        "rewards": "6% at U.S. supermarkets; 3% on U.S. gas",
+        "credit_score": {
+            "min": 700,
+            "notes": "Good credit needed"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Must cover ~$95 fee & bills"
+        }
+    },
+    {
+        "bank": "Petal",
+        "name": "Petal 2 Visa Credit Card",
+        "type": "Cash back, credit builder",
+        "annual_fee": "$0",
+        "apr": "Variable",
+        "rewards": "1-1.5% on purchases",
+        "credit_score": {
+            "min": null,
+            "notes": "Designed for limited/no-credit users"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Bank account income required; no min"
+        }
+    },
+    {
+        "bank": "Reflex",
+        "name": "Reflex Platinum Mastercard",
+        "type": "Rebuild credit",
+        "annual_fee": "$0",
+        "apr": "Fixed (~36%)",
+        "rewards": "3% cash back gas/groceries",
+        "credit_score": {
+            "min": 300,
+            "notes": "Fair/poor credit accepted"
+        },
+        "min_income": {
+            "min": null,
+            "notes": "Income or ability to repay required"
+        }
+    }
+]
