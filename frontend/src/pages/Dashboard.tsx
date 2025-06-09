@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/Dashboard.css';
 import CreditCardWidget from '../components/CreditCardWidget';
 
@@ -21,14 +22,18 @@ interface CreditCard {
 }
 
 const Dashboard: React.FC = () => {
-  const [salaryRange, setSalaryRange] = useState({ min: 20000, max: 200000 });
-  const [creditScoreRange, setCreditScoreRange] = useState({ min: 300, max: 850 });
-  const [incomeRange, setIncomeRange] = useState({ min: 20000, max: 200000 });
-  const [advancedSearch, setAdvancedSearch] = useState(false);
-  const [travelPreference, setTravelPreference] = useState(false);
+  const navigate = useNavigate();
+  const [minAnnualFee, setMinAnnualFee] = useState<string>('');
+  const [minCreditScore, setMinCreditScore] = useState<string>('');
+  const [minIncome, setMinIncome] = useState<string>('');
+  const [maxApr, setMaxApr] = useState<string>('');
+  const [selectedBank, setSelectedBank] = useState<string>('');
+  const [selectedType, setSelectedType] = useState<string>('');
   const [cards, setCards] = useState<CreditCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [availableBanks, setAvailableBanks] = useState<string[]>([]);
+  const [availableTypes, setAvailableTypes] = useState<string[]>([]);
 
   useEffect(() => {
     fetchCards();
@@ -43,6 +48,13 @@ const Dashboard: React.FC = () => {
       }
       const data = await response.json();
       setCards(data);
+      
+      // Extract unique banks and types with proper type casting
+      const banks = [...new Set(data.map((card: CreditCard) => card.bank))] as string[];
+      const types = [...new Set(data.map((card: CreditCard) => card.type))] as string[];
+      setAvailableBanks(banks);
+      setAvailableTypes(types);
+      
       setError(null);
     } catch (err) {
       setError('Failed to load credit cards. Please try again later.');
@@ -55,17 +67,48 @@ const Dashboard: React.FC = () => {
   const handleSearch = async () => {
     try {
       setLoading(true);
-      const queryParams = new URLSearchParams({
-        minCreditScore: creditScoreRange.min.toString(),
-        maxAnnualFee: salaryRange.max.toString(),
-        type: travelPreference ? 'Travel rewards' : '',
-      });
+      const queryParams = new URLSearchParams();
+
+      // Add bank filter
+      if (selectedBank) {
+        queryParams.append('bank', selectedBank);
+      }
+
+      // Add type filter
+      if (selectedType) {
+        queryParams.append('type', selectedType);
+      }
+
+      // Add minimum credit score
+      if (minCreditScore && !isNaN(Number(minCreditScore))) {
+        queryParams.append('minCreditScore', minCreditScore);
+      }
+
+      // Add annual fee filter
+      if (minAnnualFee && !isNaN(Number(minAnnualFee))) {
+        const formattedFee = `$${Number(minAnnualFee).toLocaleString()}`;
+        queryParams.append('maxAnnualFee', formattedFee);
+      }
+
+      // Add APR filter
+      if (maxApr && !isNaN(Number(maxApr))) {
+        queryParams.append('maxApr', `${maxApr}%`);
+      }
+
+      // Add minimum income
+      if (minIncome && !isNaN(Number(minIncome))) {
+        queryParams.append('minIncome', minIncome);
+      }
+
+      console.log('Search parameters:', Object.fromEntries(queryParams.entries()));
 
       const response = await fetch(`http://localhost:8080/api/cards/search?${queryParams}`);
       if (!response.ok) {
-        throw new Error('Failed to search cards');
+        alert('Failed to search cards');
+        return;
       }
       const data = await response.json();
+      console.log('Search results:', data);
       setCards(data);
       setError(null);
     } catch (err) {
@@ -75,6 +118,14 @@ const Dashboard: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const onSearch = () => {
+    handleSearch();
+  }
+
+  // useEffect(() => {
+  //   handleSearch();
+  // }, [selectedBank, selectedType, minCreditScore, minAnnualFee, maxApr, minIncome]);
 
   if (loading) {
     return <div className="loading">Loading...</div>;
@@ -86,126 +137,132 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="dashboard-container">
+      {/* Settings Button */}
+      <button 
+        className="settings-button"
+        onClick={() => navigate('/settings')}
+        aria-label="Go to settings"
+      >
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          width="24" 
+          height="24" 
+          viewBox="0 0 24 24" 
+          fill="none" 
+          stroke="currentColor" 
+          strokeWidth="2" 
+          strokeLinecap="round" 
+          strokeLinejoin="round"
+        >
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+        Settings
+      </button>
+
       {/* Sidebar for search criteria */}
       <div className="sidebar">
         <h2 className="sidebar-title">Search Criteria</h2>
-        <div className="slider-group">
-          <label>Salary Range: ${salaryRange.min} - ${salaryRange.max}</label>
-          <div className="slider-range">
-            <input
-              type="range"
-              min="20000"
-              max="200000"
-              step="1000"
-              value={salaryRange.min}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value <= salaryRange.max) {
-                  setSalaryRange({ ...salaryRange, min: value });
-                }
-              }}
-            />
-            <input
-              type="range"
-              min="20000"
-              max="200000"
-              step="1000"
-              value={salaryRange.max}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value >= salaryRange.min) {
-                  setSalaryRange({ ...salaryRange, max: value });
-                }
-              }}
-            />
-          </div>
+        
+        {/* Bank Selection */}
+        <div className="filter-group">
+          <label>Bank</label>
+          <select 
+            value={selectedBank} 
+            onChange={(e) => setSelectedBank(e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Banks</option>
+            {availableBanks.map(bank => (
+              <option key={bank} value={bank}>{bank}</option>
+            ))}
+          </select>
         </div>
 
-        <div className="slider-group">
-          <label>Credit Score Range: {creditScoreRange.min} - {creditScoreRange.max}</label>
-          <div className="slider-range">
-            <input
-              type="range"
-              min="300"
-              max="850"
-              step="10"
-              value={creditScoreRange.min}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value <= creditScoreRange.max) {
-                  setCreditScoreRange({ ...creditScoreRange, min: value });
-                }
-              }}
-            />
-            <input
-              type="range"
-              min="300"
-              max="850"
-              step="10"
-              value={creditScoreRange.max}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value >= creditScoreRange.min) {
-                  setCreditScoreRange({ ...creditScoreRange, max: value });
-                }
-              }}
-            />
-          </div>
+        {/* Card Type Selection */}
+        <div className="filter-group">
+          <label>Card Type</label>
+          <select 
+            value={selectedType} 
+            onChange={(e) => setSelectedType(e.target.value)}
+            className="filter-select"
+          >
+            <option value="">All Types</option>
+            {availableTypes.map(type => (
+              <option key={type} value={type}>{type}</option>
+            ))}
+          </select>
         </div>
 
-        <div className="slider-group">
-          <label>Income Range: ${incomeRange.min} - ${incomeRange.max}</label>
-          <div className="slider-range">
-            <input
-              type="range"
-              min="20000"
-              max="200000"
-              step="1000"
-              value={incomeRange.min}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value <= incomeRange.max) {
-                  setIncomeRange({ ...incomeRange, min: value });
-                }
-              }}
-            />
-            <input
-              type="range"
-              min="20000"
-              max="200000"
-              step="1000"
-              value={incomeRange.max}
-              onChange={(e) => {
-                const value = Number(e.target.value);
-                if (value >= incomeRange.min) {
-                  setIncomeRange({ ...incomeRange, max: value });
-                }
-              }}
-            />
-          </div>
-        </div>
-
-        <div className="advanced-search">
-          <label>
-            <input
-              type="checkbox"
-              checked={advancedSearch}
-              onChange={(e) => setAdvancedSearch(e.target.checked)}
-            />
-            Enable Advanced Search
-          </label>
-          {advancedSearch && (
-            <div className="travel-preference">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={travelPreference}
-                  onChange={(e) => setTravelPreference(e.target.checked)}
-                />
-                Do you travel frequently?
-              </label>
+        {/* Credit Score Input */}
+        <div className="filter-group">
+          <label>Minimum Credit Score Required</label>
+          <div className="credit-score-inputs">
+            <div className="input-group">
+              <input
+                type="number"
+                min="300"
+                max="850"
+                value={minCreditScore}
+                onChange={(e) => setMinCreditScore(e.target.value)}
+                placeholder="Enter minimum score (300-850)"
+                className="credit-score-input"
+              />
             </div>
-          )}
+          </div>
+        </div>
+
+        {/* Annual Fee Input */}
+        <div className="filter-group">
+          <label>Maximum Annual Fee</label>
+          <div className="credit-score-inputs">
+            <div className="input-group">
+              <input
+                type="number"
+                min="0"
+                value={minAnnualFee}
+                onChange={(e) => setMinAnnualFee(e.target.value)}
+                placeholder="Enter maximum annual fee"
+                className="credit-score-input"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* APR Input */}
+        {false && <div className="filter-group">
+          <label>Maximum APR (%)</label>
+          <div className="credit-score-inputs">
+            <div className="input-group">
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={maxApr}
+                onChange={(e) => setMaxApr(e.target.value)}
+                placeholder="Enter maximum APR"
+                className="credit-score-input"
+              />
+            </div>
+          </div>
+        </div>}
+
+        {/* Minimum Income Input */}
+        <div className="filter-group">
+          <label>Minimum Annual Income</label>
+          <div className="credit-score-inputs">
+            <div className="input-group">
+              <input
+                type="number"
+                min="0"
+                value={minIncome}
+                onChange={(e) => setMinIncome(e.target.value)}
+                placeholder="Enter minimum annual income"
+                className="credit-score-input"
+              />
+            </div>
+          </div>
         </div>
 
         <button className="search-button" onClick={handleSearch}>
