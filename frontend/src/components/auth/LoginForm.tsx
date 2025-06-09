@@ -78,8 +78,8 @@ const LoginForm: React.FC = () => {
           disabled={isLoading}
         />
       </div>
-      <button 
-        type="submit" 
+      <button  
+        type="submit"  
         className="login-button"
         disabled={isLoading}
       >
