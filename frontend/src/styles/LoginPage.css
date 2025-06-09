@@ -1,22 +1,36 @@
 :root {
-  --blue-color: #003B70;
-  --red-color: #D9261C;
-  --background-color: #003B70;
+  --citi-blue: #003B70;
+  --citi-red: #D9261C;
   --text-dark: #333;
   --text-light: #fff;
-  --border-color: #003B70;
+  --border-color: #ccc; /* Lighter border for inputs */
 }
 
 .login-page {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: var(--citi-blue);
+  background: url('../assets/creditCardPhoto.jpg') no-repeat center center/cover;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  z-index: 1;
+}
+
+.login-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--citi-blue);
+  opacity: 0.8;
+  z-index: -1;
 }
 
 .login-container {
+  position: relative;
   background: var(--text-light);
   padding: 40px;
   border-radius: 8px;
@@ -27,7 +41,7 @@
 }
 
 .login-title {
-  color: var(--blue-color);
+  color: var(--citi-blue);
   margin-bottom: 10px;
   font-size: 2.5rem;
   font-weight: 300;
@@ -62,7 +76,7 @@
 
 .login-form input:focus {
   outline: none;
-  border-color: var(--blue-color);
+  border-color: var(--citi-blue);
   box-shadow: 0 0 0 2px rgba(0, 59, 112, 0.2);
 }
 
@@ -71,7 +85,7 @@
   padding: 15px;
   border: none;
   border-radius: 4px;
-  background-color: var(--red-color);
+  background-color: var(--citi-red);
   color: var(--text-light);
   font-size: 1.1rem;
   font-weight: bold;
@@ -95,7 +109,7 @@
 }
 
 .link-text {
-  color: var(--blue-color);
+  color: var(--citi-blue);
   cursor: pointer;
   font-weight: 600;
   margin-left: 5px;
@@ -103,7 +117,7 @@
 }
 
 .link-text:hover {
-  color: var(--red-color);
+  color: var(--citi-red);
   text-decoration: underline;
 }
 

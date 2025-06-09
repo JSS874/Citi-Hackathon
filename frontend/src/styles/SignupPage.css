@@ -1,7 +1,6 @@
 :root {
-  --blue-color: #003B70;
-  --red-color: #D9261C;
-  --background-color: #f4f4f4;
+  --citi-blue: #003B70;
+  --citi-red: #D9261C;
   --text-dark: #333;
   --text-light: #fff;
   --border-color: #ddd;
@@ -9,16 +8,31 @@
 }
 
 .signup-page {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: var(--background-color);
+  background: url('../assets/HelloPicture.jpg') no-repeat center center/cover;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   padding: 20px;
+  z-index: 1;
+}
+
+.signup-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--citi-blue);
+  opacity: 0.7;
+  z-index: -1;
 }
 
 .signup-container {
+  position: relative;
   background: var(--text-light);
   padding: 40px;
   border-radius: 12px;
@@ -29,7 +43,7 @@
 }
 
 .signup-title {
-  color: var(--blue-color);
+  color: var(--citi-blue);
   margin-bottom: 10px;
   font-size: 2.5rem;
   font-weight: 300;
@@ -74,7 +88,7 @@
 
 .signup-form input:focus {
   outline: none;
-  border-color: var(--blue-color);
+  border-color: var(--citi-blue);
   box-shadow: 0 0 0 3px rgba(0, 59, 112, 0.1);
   background-color: var(--text-light);
 }
@@ -89,7 +103,7 @@
   padding: 16px;
   border: none;
   border-radius: 8px;
-  background-color: var(--red-color);
+  background-color: var(--citi-red);
   color: var(--text-light);
   font-size: 1.1rem;
   font-weight: 600;
@@ -122,7 +136,7 @@
 }
 
 .link-text {
-  color: var(--blue-color);
+  color: var(--citi-blue);
   cursor: pointer;
   font-weight: 600;
   margin-left: 5px;
@@ -130,7 +144,7 @@
 }
 
 .link-text:hover {
-  color: var(--red-color);
+  color: var(--citi-red);
   text-decoration: underline;
 }
 
