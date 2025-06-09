@@ -6,7 +6,8 @@ const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -23,6 +24,13 @@ const SignupForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    // Validate passwords match
+    if (formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -31,7 +39,11 @@ const SignupForm: React.FC = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        })
       });
 
       const data = await response.text();
@@ -54,7 +66,7 @@ const SignupForm: React.FC = () => {
     <form className="signup-form" onSubmit={handleSubmit}>
       {error && <div className="error-message">{error}</div>}
       <div className="form-group">
-        <label htmlFor="name">Name</label>
+        <label htmlFor="name">Full Name</label>
         <input
           type="text"
           id="name"
@@ -62,11 +74,12 @@ const SignupForm: React.FC = () => {
           value={formData.name}
           onChange={handleChange}
           required
+          placeholder="Enter your full name"
           disabled={isLoading}
         />
       </div>
       <div className="form-group">
-        <label htmlFor="email">Email</label>
+        <label htmlFor="email">Email Address</label>
         <input
           type="email"
           id="email"
@@ -74,6 +87,7 @@ const SignupForm: React.FC = () => {
           value={formData.email}
           onChange={handleChange}
           required
+          placeholder="Enter your email"
           disabled={isLoading}
         />
       </div>
@@ -86,6 +100,22 @@ const SignupForm: React.FC = () => {
           value={formData.password}
           onChange={handleChange}
           required
+          placeholder="Create a password"
+          minLength={6}
+          disabled={isLoading}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          value={formData.confirmPassword}
+          onChange={handleChange}
+          required
+          placeholder="Confirm your password"
+          minLength={6}
           disabled={isLoading}
         />
       </div>
@@ -94,7 +124,7 @@ const SignupForm: React.FC = () => {
         className="signup-button"
         disabled={isLoading}
       >
-        {isLoading ? 'Signing up...' : 'Sign Up'}
+        {isLoading ? 'Creating Account...' : 'Create Account'}
       </button>
     </form>
   );
