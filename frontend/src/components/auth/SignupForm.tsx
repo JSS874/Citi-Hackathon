@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import '../../styles/LoginPage.css';
+import '../../styles/SignupPage.css';
 
-const LoginForm: React.FC = () => {
+const SignupForm: React.FC = () => {
   const [formData, setFormData] = useState({
+    name: '',
     email: '',
     password: ''
   });
@@ -25,7 +26,7 @@ const LoginForm: React.FC = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/users/login', {
+      const response = await fetch('http://localhost:8080/api/users/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -36,24 +37,34 @@ const LoginForm: React.FC = () => {
       const data = await response.text();
       
       if (response.ok) {
-        // Store user email in localStorage or state management
-        localStorage.setItem('userEmail', formData.email);
-        // Redirect to dashboard or home page
-        navigate('/dashboard');
+        // Redirect to login page after successful signup
+        navigate('/login');
       } else {
-        setError(data || 'Invalid email or password');
+        setError(data || 'An error occurred during signup');
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
-      console.error('Login error:', err);
+      console.error('Signup error:', err);
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
+    <form className="signup-form" onSubmit={handleSubmit}>
       {error && <div className="error-message">{error}</div>}
+      <div className="form-group">
+        <label htmlFor="name">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          required
+          disabled={isLoading}
+        />
+      </div>
       <div className="form-group">
         <label htmlFor="email">Email</label>
         <input
@@ -80,13 +91,13 @@ const LoginForm: React.FC = () => {
       </div>
       <button 
         type="submit" 
-        className="login-button"
+        className="signup-button"
         disabled={isLoading}
       >
-        {isLoading ? 'Logging in...' : 'Login'}
+        {isLoading ? 'Signing up...' : 'Sign Up'}
       </button>
     </form>
   );
 };
 
-export default LoginForm;
+export default SignupForm; 

@@ -7,6 +7,7 @@ const LoginPage: React.FC = () => {
   const navigate = useNavigate();
 
   const handleSignupRedirect = () => {
+    
     navigate('/signup');
   };
 
