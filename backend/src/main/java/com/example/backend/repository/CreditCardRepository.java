@@ -5,5 +5,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.List;
 
 public interface CreditCardRepository extends MongoRepository<CreditCard, String> {
-    List<CreditCard> findByRewardType(String rewardType);
+    List<CreditCard> findByType(String type);
 }
