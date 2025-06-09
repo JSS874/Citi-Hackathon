@@ -64,6 +64,7 @@
         }
     },
     {
+        "bank": "Citi",
         "name": "Citi Custom Cash",
         "type": "Cash back",
         "annual_fee": "$0",
@@ -79,6 +80,7 @@
         }
     },
     {
+        "bank": "Citi",
         "name": "Citi Rewards+",
         "type": "Points rewards",
         "annual_fee": "$0",
@@ -94,6 +96,7 @@
         }
     },
     {
+        "bank": "PNC",
         "name": "PNC Cash Rewards Visa",
         "type": "Cash back",
         "annual_fee": "$0",
